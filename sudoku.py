@@ -2,18 +2,25 @@ import games
 from graphics import *
 
 def main():
-    sudokuWindow = GraphWin("Sudo", 870,470)
+    sudokuWindow = GraphWin("Sudo", 470,470)
     sudokuWindow.setBackground("white")
    
     gameScreen = emptyGrid()
-    game = purified(games.game2)
+    game = cleanUp(games.game2)
     addGameValuesToList(game,gameScreen)
 
     for element in gameScreen:
         element.draw(sudokuWindow)
 
+    # sudokuWindow.getMouse()
+    # sudokuWindow.close()
+
+    matrixWindow = GraphWin("Matrices", 240,600)
+    matrixWindow.setBackground("white")
     sudokuWindow.getMouse()
+    matrixWindow.getMouse()
     sudokuWindow.close()
+    matrixWindow.close()
 
 def emptyGrid():
     grid = []
@@ -34,12 +41,12 @@ def addGrid(grid:list):
 
     return grid
 
-def purified(game:str):
-    legalChars = ["1","2","3","4","5","6","7","8","9"]
+def cleanUp(game:str):
+    validCharacters = ["1","2","3","4","5","6","7","8","9"]
     pure = ""
     for char in game:
         try:
-            _ = legalChars.index(char)
+            _ = validCharacters.index(char)
             pure = f"{pure}{char}"
         except ValueError:
            pure = f"{pure} "
@@ -135,62 +142,5 @@ def getAreaNumber(x:str,y:str):
         else:
             return "9"
 
-
-    
-# def addGameValuesToListOld2(game:str,list:list):
-#     gameObj = {"stringGame":game,"matrix":games.matrix2}
-#     # gameObj["matrix"]["c1"]["1"] = "Hellodas asad asd "
-#     # print(gameObj["matrix"]["c1"]["1"])
-#     # for index,matrixRow in enumerate(gameObj["matrix"]):
-#     #     x = matrixRow["c1"]
-#     #     print(f"{index+1}: {matrixRow}")
-#     #     # print(x)
-        
-#     for index, char in enumerate(gameObj["stringGame"]):
-#         col = (index)%9
-#         row = (int)((index)/9)
-#         gameObj["matrix"][f"c{col+1}"][f"{row+1}"] = char
-#         gameObj["matrix"][f"r{row+1}"][f"{col+1}"] = char
-#         # gameObj["matrix"]["a1"]["1"] = char
-#         x = 35 + col*50 
-#         y = 35 + row*50
-       
-#         list.append(Text(Point(x,y),char))
-    
-#     print(gameObj["matrix"])
-
-# def addGameValuesToListOLD1(game:str,list:list):
-
-#     for index, char in enumerate(game):
-#         col = (index)%9
-#         row = (int)((index)/9)
-#         # x = 35 + ((index)%9)*50
-#         x = 35 + col*50
-#         y = 35 + row*50
-#         # y = 35 + (int)((index)/9)*50
-#         list.append(Text(Point(x,y),char))
-
-# def generateGameMatrix(game):
-#     gameList = []
-#     chars = [char for char in game]
-#     row = []
-#     for index,char in enumerate(game):
-#         row.append
-
-
-# class SudokuGame():
-
-
-    # point1 = Point(100,100)
-    # point2 = Point(400,400)
-    # number = Text(point1,"H")
-    # number.setTextColor("Red")
-    # number.setFill("Red")
-
-    # number.draw(sudokuWindow)
-    
-    
-    # for char in games.game1:
-    #     count = 0  
 if __name__ == "__main__":
     main()
