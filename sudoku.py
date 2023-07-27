@@ -9,22 +9,34 @@ def main():
     game = cleanUp(games.game2)
     addGameValuesToList(game,gameScreen)
 
+  
     for element in gameScreen:
         element.draw(sudokuWindow)
 
-    # sudokuWindow.getMouse()
-    # sudokuWindow.close()
+    matrixWindow, matrixScreenList = createMatrixToDraw("Matrices", 240,600) # handles creation and drawing
 
-    matrixWindow = GraphWin("Matrices", 240,600)
-    matrixWindow.setBackground("white")
     sudokuWindow.getMouse()
-    matrixWindow.getMouse()
     sudokuWindow.close()
+    matrixWindow.getMouse()
     matrixWindow.close()
 
 def emptyGrid():
     grid = []
     return addGrid(grid)
+
+# def createMatrixToDraw2(window:GraphWin):
+#     window.setBackground("white")
+#     return createMatrixGrid(window.getWidth(),window.getHeight())
+
+def createMatrixToDraw(name,width,height):
+    window = GraphWin(name, width,height)
+    window.setBackground("white")
+    screen = createMatrixGrid(width,window.height)
+    for element in screen:
+        element.draw(window)
+    return window, screen
+    # return window, createMatrixGrid(width,window.height)
+
 
 def addGrid(grid:list):
     box = Rectangle(Point(10,10),Point(460,460))
@@ -37,6 +49,20 @@ def addGrid(grid:list):
             lineX.setWidth(3)
             lineY.setWidth(3)
         grid.append(lineX)
+        grid.append(lineY)
+
+    return grid
+
+def createMatrixGrid(width,height):
+    grid = []
+    cellWidth = 25
+
+    for x in range(1,28):
+        lineX = Line(Point(10,(10+cellWidth*x)),Point(width,(10+cellWidth*x)))
+        grid.append(lineX)
+    
+    for i in range(1,9):
+        lineY = Line(Point((10+cellWidth*i),10),Point((10+cellWidth*i),height))
         grid.append(lineY)
 
     return grid
