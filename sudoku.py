@@ -13,7 +13,7 @@ def main():
     for element in gameScreen:
         element.draw(sudokuWindow)
 
-    matrixWindow, matrixScreenList = createMatrixToDraw("Matrices", 240,600) # handles creation and drawing
+    matrixWindow, matrixScreenList = createMatrixToDraw("Matrices", 270,720) # handles creation and drawing
 
     sudokuWindow.getMouse()
     sudokuWindow.close()
@@ -56,13 +56,41 @@ def addGrid(grid:list):
 def createMatrixGrid(width,height):
     grid = []
     cellWidth = 25
+    legendX = Rectangle(Point(10+cellWidth,10),Point(width-10,10+cellWidth))
+    legendX.setWidth(2)
+    legendX.setOutline(color_rgb(0,0,255))
+    grid.append(legendX)
+    legendC = Rectangle(Point(10,10+cellWidth),Point(35,height-(10+cellWidth*18)))
+    legendC.setWidth(2)
+    legendC.setOutline(color_rgb(0,75,0))
+    grid.append(legendC)
+    cBox = Rectangle(Point(10+cellWidth,10+cellWidth),Point(width-10,height-(10+cellWidth*18)))
+    cBox.setOutline(color_rgb(0,75,0))
+    cBox.setWidth(2)
+    grid.append(cBox)
+    legendR = Rectangle(Point(10,10+cellWidth*10),Point(35,height-(10+cellWidth*9)))
+    legendR.setWidth(2)
+    legendR.setOutline(color_rgb(0,150,0))
+    grid.append(legendR)
+    rBox = Rectangle(Point(10+cellWidth,10+cellWidth*10),Point(width-10,height-(10+cellWidth*9)))
+    rBox.setOutline(color_rgb(0,150,0))
+    rBox.setWidth(2)
+    grid.append(rBox)
+    legendA = Rectangle(Point(10,10+cellWidth*19),Point(35,height-10))
+    legendA.setWidth(2)
+    legendA.setOutline(color_rgb(0,225,0))
+    grid.append(legendA)
+    aBox = Rectangle(Point(10+cellWidth,10+cellWidth*19),Point(width-10,height-10))
+    aBox.setOutline(color_rgb(0,225,0))
+    aBox.setWidth(2)
+    grid.append(aBox)
 
-    for x in range(1,28):
-        lineX = Line(Point(10,(10+cellWidth*x)),Point(width,(10+cellWidth*x)))
+    for x in range(0,29):
+        lineX = Line(Point(10,(10+cellWidth*x)),Point(width-10,(10+cellWidth*x)))
         grid.append(lineX)
     
-    for i in range(1,9):
-        lineY = Line(Point((10+cellWidth*i),10),Point((10+cellWidth*i),height))
+    for i in range(0,11):
+        lineY = Line(Point((10+cellWidth*i),10),Point((10+cellWidth*i),height-10))
         grid.append(lineY)
 
     return grid
