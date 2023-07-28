@@ -7,36 +7,52 @@ def main():
    
     gameScreen = emptyGrid()
     game = cleanUp(games.game2)
-    addGameValuesToList(game,gameScreen)
+    gameObject = addGameValuesToList(game,gameScreen)
 
   
     for element in gameScreen:
         element.draw(sudokuWindow)
 
     matrixWindow, matrixScreenList = createMatrixToDraw("Matrices", 270,720) # handles creation and drawing
+    populateScreenList(matrixScreenList,gameObject)
+    
+    for element in matrixScreenList:
+        element.draw(matrixWindow)
 
     sudokuWindow.getMouse()
     sudokuWindow.close()
     matrixWindow.getMouse()
     matrixWindow.close()
 
+def populateScreenList(screenList:list,gameObj):
+    labelColumns(screenList)
+    labelRows(screenList,gameObj)
+    populateValidityMatrix(screenList,gameObj)
+
+
+def populateValidityMatrix(screenList:list,gameObj):
+    for rowIndex, key in enumerate(gameObj["matrix"]):
+        for colIndex, value in enumerate(gameObj["matrix"][f"{key}"]):
+            screenList.append(Text(Point(48+colIndex*25,48+rowIndex*25),f"{value}"))
+
+def labelColumns(screenList:list):
+    for i in range(1,10):
+        screenList.append(Text(Point(25*(i)+22, 22),f"{i}"))
+
+def labelRows(screenList:list,gameObj):
+    for index, key in enumerate(gameObj["matrix"]):
+        screenList.append(Text(Point(22,48+index*25),f"{key}"))
+
 def emptyGrid():
     grid = []
     return addGrid(grid)
 
-# def createMatrixToDraw2(window:GraphWin):
-#     window.setBackground("white")
-#     return createMatrixGrid(window.getWidth(),window.getHeight())
-
 def createMatrixToDraw(name,width,height):
     window = GraphWin(name, width,height)
     window.setBackground("white")
-    screen = createMatrixGrid(width,window.height)
-    for element in screen:
-        element.draw(window)
-    return window, screen
-    # return window, createMatrixGrid(width,window.height)
-
+    drawList = createMatrixGrid(width,height)
+    
+    return window, drawList
 
 def addGrid(grid:list):
     box = Rectangle(Point(10,10),Point(460,460))
@@ -56,6 +72,7 @@ def addGrid(grid:list):
 def createMatrixGrid(width,height):
     grid = []
     cellWidth = 25
+
     legendX = Rectangle(Point(10+cellWidth,10),Point(width-10,10+cellWidth))
     legendX.setWidth(2)
     legendX.setOutline(color_rgb(0,0,255))
@@ -139,8 +156,7 @@ def addGameValuesToList(game:str,list:list):
         list.append(Text(Point(x,y),char))
     
     printMatrix(gameObj)
-
-# def updateGameMatrix() 
+    return gameObj
 
 def printMatrix(gameObj):
     print("      1    2    3    4    5    6    7    8    9")
@@ -149,29 +165,6 @@ def printMatrix(gameObj):
         print(f"{entry}: {gameObj['matrix'][entry]}")
         if (index+1)%9==0:
             print("    |=|----|----|----|----|----|----|----|----|=|")
-
-def addGameValuesToListOldGood(game:str,list:list):
-    gameObj = {"stringGame":game,"matrix":games.matrix3}
-
-    for index, char in enumerate(gameObj["stringGame"]):
-        col = (index)%9
-        row = (int)((index)/9)
-        if char != " ":
-            gameObj["matrix"][f"c{col+1}"].remove(char)
-            gameObj["matrix"][f"r{row+1}"].remove(char)
-            area = gameObj["matrix"][f"a{getAreaNumber(col,row)}"]
-            try:
-                _ = area.index(char)
-                area.remove(char)
-            except:
-                pass
-
-        x = 35 + col*50 
-        y = 35 + row*50
-        list.append(Text(Point(x,y),char))
-    
-    for entry in gameObj["matrix"]:
-        print(f"{entry}: {gameObj['matrix'][entry]}")
 
 def getAreaNumber(x:str,y:str):
     if int(x)<=2: 
